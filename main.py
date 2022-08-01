@@ -43,6 +43,3 @@ while True:
     save_grid(main_grid,name="main_grid")
     grid_to_img(main_grid,name="main_grid")
     # sleep(0.1)
-
-# TODO: 
-# - Add some sort of decay or something that removes the false positives
