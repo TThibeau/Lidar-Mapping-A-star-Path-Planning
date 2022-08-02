@@ -5,8 +5,8 @@ def save_grid(grid,name):
     with open(f"Out\{name}.txt", "w") as file:
         np.savetxt(file, grid,fmt="%u")
 
-def grid_to_img(img_grid,name):
-    pil_image = Image.fromarray((img_grid * 255).astype(np.uint8))
+def grid_to_img(img_grid,name,rgb_tuple):
+    pil_image = Image.fromarray((img_grid*rgb_tuple).astype(np.uint8),'RGB')
     pil_image.save(f'Out\{name}.png')
     # pil_image.show()
     
@@ -50,7 +50,7 @@ def create_main_grid(resolution,width,height):
     if COLS % 2 == 0: 
         COLS += 1 # The grid should have odd sizes (to have a mid col)
     
-    main_grid = np.zeros((ROWS,COLS))
+    main_grid = np.zeros((ROWS,COLS,3))
 
     return main_grid
 
