@@ -2,6 +2,8 @@ from node import Node
 import numpy as np
 from heapq import heappush, heappop
 from PIL import Image
+import math
+from mapping_functions import grid_to_img
 
 def reconstruct_path(current: Node) -> list[Node]:
     '''
@@ -36,6 +38,28 @@ def store_path_as_png(path: list[Node], grid: np.ndarray, output_name: str) -> N
     pil_image.save(f"{output_name}.png")
     print(f"{output_name}.png has been saved.")
 
+def store_combined_map_path_as_png(main_img: str,path_img: str) -> None:
+    '''
+    Combines the 2 grids: main (Lidar-measurement-map) and path (A*-shortest-path) and stores them as a combined png
+    '''
+    main_grid_array = np.asarray(Image.open(f"{main_img}.png"))
+    path_grid_array = np.asarray(Image.open(f"{path_img}.png").convert('RGB'))
+    new = path_grid_array*(1,0,1)+main_grid_array*(0.4,0.4,0.4)
+    grid_to_img(new,"combined",rgb_tuple=(1,1,1))
+
+# def determine_valid_stepsize(start_node: Node, goal_node: Node, desired_stepsize: int) -> int:
+#     '''
+#     !UNUSED! 
+#     Could be used to calculate stepsizes to reduce nodes in path
+#     '''
+#     r_diff = abs(start_node.row - goal_node.row)
+#     c_diff = abs(start_node.col - goal_node.col)
+#     if r_diff % desired_stepsize == 0 and c_diff % desired_stepsize == 0:
+#         valid_stepsize = desired_stepsize
+#     else:
+#         valid_stepsize = math.gcd(r_diff,c_diff)
+
+#     return valid_stepsize
 
 def a_star(start: tuple , goal: tuple, grid: np.ndarray, res) -> list:
     '''
@@ -81,7 +105,9 @@ def a_star(start: tuple , goal: tuple, grid: np.ndarray, res) -> list:
 
         heappop(open_set)  # Remove the current node from the heap
 
-        current.determine_neighbours(explored) # Determine the neighbours of the current node, this populates current.neighbours
+        # stepsize = determine_valid_stepsize(start_node=start_node,goal_node=goal_node,desired_stepsize=1) # Function can be used once the addition check for wall jumps is implemented
+        
+        current.determine_neighbours(explored,1) # Determine the neighbours of the current node, this populates current.neighbours
 
         for neighbour in current.neighbours:
             provisional_g = current.g + current.distance(neighbour)
