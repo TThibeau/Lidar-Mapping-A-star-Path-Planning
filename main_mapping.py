@@ -1,6 +1,6 @@
 from scripts.mapping_functions import measurement_to_point_cloud,create_main_grid,point_cloud_to_grid, save_grid,grid_to_img
 from scripts.lidar import LidarConnection
-from udp_connection import UDPConnection
+from scripts.udp_connection import UDPConnection
 from scripts.color_tuples import WHITE,BLUE
 from time import sleep
 from os import sys

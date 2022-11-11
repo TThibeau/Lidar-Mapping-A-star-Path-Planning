@@ -1,4 +1,4 @@
-from node import Node
+from scripts.node import Node
 import numpy as np
 from heapq import heappush, heappop
 from PIL import Image
