@@ -1,4 +1,4 @@
-from path_finding_functions import a_star,store_path_as_png,store_combined_map_path_as_png
+from scripts.path_finding_functions import a_star,store_path_as_png,store_combined_map_path_as_png
 import numpy as np
 from PIL import Image
 
